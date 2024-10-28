@@ -24,6 +24,8 @@ const ArticlePage = async (props)=>{
 
   const article = await getArticle(id, locale)
 
+  console.log(article)
+
   const mainImage = article.images.find(({is_main})=>is_main)
 
   const intl = await getIntl(locale, 'home');
