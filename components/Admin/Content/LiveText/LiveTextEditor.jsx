@@ -6,16 +6,17 @@ import {useLiveText} from "@/hooks/liveText";
 import {useParams} from "next/navigation";
 import axios from "@/lib/axios";
 
-export default function App({onFinish, data, onEdit}) {
+export default function App({data, successEdit}) {
   const editorRef = useRef(null);
   const {id} = useParams()
-  const {addLiveTextRecord} = useLiveText({id})
+  const {addLiveTextRecord, updateLiveTextRecord} = useLiveText({id})
   const [tgEmbed, setTgEmbed] = useState()
   const [title, setTitle] = useState('')
+  const [editorInitialContent, setEditorInitialContent] = useState(data && data.content)
   const log = () => {
     if (editorRef.current) {
-      onFinish(editorRef.current.getContent());
-      console.log(editorRef.current.getContent());
+      // onFinish(editorRef.current.getContent());
+      // console.log(editorRef.current.getContent());
     }
   };
   const formAction = formData =>{
@@ -24,12 +25,28 @@ export default function App({onFinish, data, onEdit}) {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log('form2', e.valueOf())
-    const content = editorRef.current.getContent()
-    addLiveTextRecord({
-      id, content, tg_embed: tgEmbed, title
-    })
 
+    const content = editorRef.current.getContent()
+
+    if (data){
+      updateLiveTextRecord({
+        recordId: data.id,
+        content,
+        tg_embed: tgEmbed,
+        title,
+        success: (prop)=>{
+          if (prop) successEdit(!prop)
+        }
+      })
+    } else {
+      addLiveTextRecord({
+        id, content, tg_embed: tgEmbed, title, successAdd: ()=>{
+          setTitle('')
+          editorRef.current.setContent('')
+
+        }
+      })
+    }
   }
 
   return (
@@ -38,7 +55,7 @@ export default function App({onFinish, data, onEdit}) {
           <label htmlFor="large-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Large
             input</label>
           <input type="text" id="large-input"
-                 value={title}
+                 value={data ? data.title : title}
                  name="title"
                  onChange={e=>setTitle(e.target.value)}
                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
@@ -48,9 +65,9 @@ export default function App({onFinish, data, onEdit}) {
 
             apiKey="b0vxrq8c3n7hepn2x3u3c9s8lf28p7rqyqcv2gycpt4o00at"
             onInit={(_evt, editor) => editorRef.current = editor}
-            // initialValue={data.}
+            initialValue={editorInitialContent}
             onEditorChange={({newValue, editor}) => {
-              onEdit(editorRef.current.getContent());
+              // onEdit(editorRef.current.getContent());
             }}
             init={{
               height: 300,
@@ -60,11 +77,12 @@ export default function App({onFinish, data, onEdit}) {
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
               ],
-              toolbar: 'undo redo | blocks | image | media | code ' +
+              toolbar: 'undo redo | blocks | image | media | code | link' +
                   'bold italic forecolor | alignleft aligncenter ' +
                   'alignright alignjustify | bullist numlist outdent indent | ' +
                   'removeformat | help',
               content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+
               // a11y_advanced_options: true,
               file_picker_callback: (cb, value, meta) => {
                 const input = document.createElement('input');

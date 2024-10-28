@@ -11,6 +11,7 @@ const LiveTextDetailsPage = async props => {
 
   // const {id} = useParams()
   return <div className="m-5 bg-white rounded-lg shadow-sm">
+
     <LiveText id={id} />
   </div>
 }

@@ -18,54 +18,61 @@ const fetcher = (url) =>
         "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem("access_token")}`
       }
-    }).then((res) => res.json());
+    }).then((res) => res.json())
+        .catch(error => console.log(error));
 
 export const useLiveText = ({id}={})=>{
-  const {data, mutate, error, isLoading} = useSWR(`/api/admin/live-text`, async ()=>{
-
-    const response = await fetch(`http://localhost:8000/api/admin/livetexts`,{
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-      }
-    })
-        .catch(error=>{
-          console.log(error)
-        })
-    return await response.json()
-  })
+  const {data, mutate, error, isLoading} = useSWR(`http://localhost:8000/api/admin/livetexts`, fetcher)
 
   const { data: liveTextDetails, isLoading: ltdLoading, mutate: ltMutate } = useSWR(
       `http://localhost:8000/api/admin/livetexts/${id}`,
-      async () => {
-        const res = await fetch(`http://localhost:8000/api/admin/livetexts/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-          }
-        });
-        return res.json();
-      }
+      fetcher
   )
 
-  const addLiveTextRecord = async ({ id, content, tg_embed, title }) => {
+  const addLiveTextRecord = async ({ id, content, tg_embed, title, successAdd }) => {
 
-    const resp = await axios.post(`/api/admin/livetexts/${id}/records`,{
-      content, tg_embed, title
-    })
-
-
-    ltMutate();
-
+    const resp = await axios.post(`/api/admin/livetexts/${id}/records`, {
+      content,
+      tg_embed,
+      title
+    });
+    if (resp.status === 200) {
+      successAdd();
+    }
+    ltMutate(); // Actualizează datele pentru LiveText-ul specific
     return resp;
   };
+
+  const updateLiveTextRecord = async ({ recordId, content, tg_embed, title, success })=>{
+    await axios.patch(`/api/admin/records/${recordId}`, {
+      content,
+      tg_embed,
+      title
+    }).then(() => {
+      ltMutate(); // Actualizează datele după editare
+      success(true);
+    });
+  }
+
+  const deleteLiveTextRecord = async (recordId)=>{
+    await axios.delete(`/api/admin/records/${recordId}`).then(() => ltMutate());
+  }
+
+  const {data: publicLiveText} = useSWR(`http://localhost:8000/live-text`, async ()=>{
+
+    const response = await fetch('http://localhost:8000/live-text')
+    return await response.json();
+
+  })
 
 
   return {
     data,
     liveTextDetails,
-    ltdLoading, addLiveTextRecord
+    ltdLoading,
+    addLiveTextRecord,
+    deleteLiveTextRecord,
+    updateLiveTextRecord,
+    publicLiveText
   }
 }
