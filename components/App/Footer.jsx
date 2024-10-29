@@ -11,7 +11,7 @@ const Footer = ()=> {
           className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 Deschide.MD™. {intl.formatMessage({ id: 'footer_rights' })}.
     </span>
       <div className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-        <LoginLinks/>
+        {/*<LoginLinks/>*/}
       </div>
     </div>
   </footer>
