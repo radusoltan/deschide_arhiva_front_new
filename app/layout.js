@@ -36,7 +36,7 @@ export default async function RootLayout(props) {
   return <html lang={locale} className="h-full bg-gray-100">
   <GoogleAnalytics gaId="G-7E5YRG7F5M" />
   <GoogleTagManager gtmId="GTM-WJW23Z" />
-    <body className={poppins.className` h-full`}>
+    <body className={poppins.className + ` h-full`}>
       {children}
       <Script id="clarity-script" strategy="afterInteractive">
         {`
