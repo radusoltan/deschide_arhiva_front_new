@@ -12,24 +12,14 @@
 import useSWR from "swr";
 import axios from "@/lib/axios";
 
-const fetcher = (url) =>
-    fetch(url, {
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-      }
-    }).then((res) => res.json())
-        .catch(error => console.log(error));
-
 export const useLiveText = ({id}={})=>{
-  const {data, mutate, error, isLoading} = useSWR(`http://localhost:8000/api/admin/livetexts`, async ()=>{
+  const {data, mutate, error, isLoading} = useSWR(`/api/admin/livetexts`, async ()=>{
     const response = await axios.get(`/api/admin/livetexts/`);
     return response.data
   })
 
   const { data: liveTextDetails, isLoading: ltdLoading, mutate: ltMutate } = useSWR(
-      `http://localhost:8000/api/admin/livetexts/${id}`, async ()=>{
+      `/api/admin/livetexts/${id}`, async ()=>{
         const response = await axios.get(`/api/admin/livetexts/${id}`);
         return response.data
       }
