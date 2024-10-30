@@ -9,17 +9,15 @@ const {locale} = useParams()
   
 
   return <>
+    <button onClick={()=>{
+
+    }}>ADD</button>
 
     {
       data?.map(({id, name, records})=> <div key={id}>
         <Link href={`/${locale}/content/live-text/${id}`}>
         <h1>{name}</h1>
         </Link>
-        <ul>{
-          records.map((item, index)=><div key={index}>{
-
-          }</div>)
-        }</ul>
       </div>)
     }
 
