@@ -54,9 +54,9 @@ export const useLiveText = ({id}={})=>{
     await axios.delete(`/api/admin/records/${recordId}`).then(() => ltMutate());
   }
 
-  const {data: publicLiveText} = useSWR(`http://localhost:8000/live-text`, async ()=>{
+  const {data: publicLiveText} = useSWR(`/live-text`, async ()=>{
 
-    const response = await fetch('http://localhost:8000/live-text')
+    const response = await fetch('/live-text')
     return await response.json();
 
   })
