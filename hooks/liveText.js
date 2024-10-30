@@ -54,12 +54,7 @@ export const useLiveText = ({id}={})=>{
     await axios.delete(`/api/admin/records/${recordId}`).then(() => ltMutate());
   }
 
-  const {data: publicLiveText} = useSWR(`/live-text`, async ()=>{
 
-    const response = await fetch('/live-text')
-    return await response.json();
-
-  })
 
 
   return {
@@ -69,6 +64,22 @@ export const useLiveText = ({id}={})=>{
     addLiveTextRecord,
     deleteLiveTextRecord,
     updateLiveTextRecord,
-    publicLiveText
+
   }
+}
+
+export const usePublicLiveText = ()=>{
+
+  const {data, isLoading} = useSWR(`/live-text`, async ()=>{
+
+    const response = await fetch('http://localhost:8000/live-text')
+    return await response.json();
+
+  })
+
+  return {
+    data,
+    isLoading
+  }
+
 }
