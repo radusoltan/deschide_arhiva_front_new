@@ -8,7 +8,7 @@ const getArticles = async (locale, page, size)=>{
     query: {
       bool: {
         must: [
-          { match: { "locale": locale} }
+          { match: { "language": locale} }
         ]
       }
     }
@@ -20,14 +20,14 @@ const getArticles = async (locale, page, size)=>{
     query: {
       bool: {
         must: [
-          { match: { "locale": locale } },
+          { match: { "language": locale } },
         ]
       }
     },
     size,
     from,
     sort: [
-      { 'published': { "order": "desc", format: "strict_date_optional_time_nanos" } },
+      { 'published_at': { "order": "desc", format: "strict_date_optional_time_nanos" } },
     ]
   })
 
@@ -55,6 +55,7 @@ const HomePage = async (props)=>{
   }
 
   const {total, articles} = await getArticles(locale, page, size);
+  console.log(articles)
 
   return <main>
     <div className="bg-gray-50 py-6">

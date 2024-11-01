@@ -26,7 +26,7 @@ const ArticlePage = async (props)=>{
 
   console.log(article)
 
-  const mainImage = article.images.find(({is_main})=>is_main)
+  const mainImage = article.images.find(({is_default})=>is_default)
 
   const intl = await getIntl(locale, 'home');
 
@@ -50,14 +50,14 @@ const ArticlePage = async (props)=>{
                   <p className="mb-5" dangerouslySetInnerHTML={{__html: article.lead ?? article.lead}}/>
                   <figure className="text-center mb-6">
                     <Image
-                        src={process.env.NEXT_PUBLIC_BACKEND_URL + mainImage.path + mainImage.name} alt={article.title}
+                        src={process.env.NEXT_PUBLIC_BACKEND_URL + 'storage/images/' + mainImage.fileName} alt={article.title}
                         width={mainImage.width}
                         height={mainImage.height}
                         className="max-w-full h-auto"
                         priority
                     />
                   </figure>
-                  <div className="mb-5 article-body" dangerouslySetInnerHTML={{__html: article.body}}/>
+                  <div className="mb-5 article-body" dangerouslySetInnerHTML={{__html: article.content}}/>
                   <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                        role="alert">{intl.formatMessage({ id: 'disclaimer' })}</div>
                 </article>
