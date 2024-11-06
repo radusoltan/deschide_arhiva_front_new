@@ -3,6 +3,9 @@ import Image from "next/image";
 
 import ServerIntlProvider from "@/components/ServerIntlProvider";
 import getIntl from "@/app/intl";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import moment from "moment/moment";
 
 const getArticle = async (id)=>{
 
@@ -21,10 +24,8 @@ const ArticlePage = async (props)=>{
 
   const params = await props.params
   const {id, locale} = params
-
+  moment.locale(locale)
   const article = await getArticle(id, locale)
-
-  console.log(article)
 
   const mainImage = article.images.find(({is_default})=>is_default)
 
@@ -41,6 +42,14 @@ const ArticlePage = async (props)=>{
                 <span className="inline-block h-5 border-l-3 border-red-600 mr-2"></span>
                 {article.title}
               </h2>
+              <div className="my-5 text-gray-500 text-sm">
+                Author : {
+                article.authors.length > 0 ? article.authors.map(author=>author.full_name).join(', ') : article.authors[0].full_name
+              }
+              </div>
+              <div className="my-5 text-gray-500 text-sm">
+                {moment(article.published_at).format("LL")}
+              </div>
             </div>
             <div className="flex flex-row flex-wrap -mx-3">
               <div className="max-w-full w-full px-4">

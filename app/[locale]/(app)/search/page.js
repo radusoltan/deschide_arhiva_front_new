@@ -12,7 +12,7 @@ const getSearchResults = async (query='', locale, page=1, size=20)=>{
     query: {
       bool: {
         must: [
-          { match: { "locale": locale } },
+          { match: { "language": locale } },
           { multi_match: {
               query,
               fields: ["title^5","lead","body"],
@@ -24,7 +24,7 @@ const getSearchResults = async (query='', locale, page=1, size=20)=>{
     size,
     from,
     sort: [
-      { 'published': { "order": "desc", format: "strict_date_optional_time_nanos" } },
+      { 'published_at': { "order": "desc", format: "strict_date_optional_time_nanos" } },
     ]
   })
 

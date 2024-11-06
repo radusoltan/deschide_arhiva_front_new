@@ -55,7 +55,7 @@ const HomePage = async (props)=>{
   }
 
   const {total, articles} = await getArticles(locale, page, size);
-  console.log(articles)
+
 
   return <main>
     <div className="bg-gray-50 py-6">
