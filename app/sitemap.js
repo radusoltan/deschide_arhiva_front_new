@@ -26,7 +26,7 @@ export default async function sitemap(){
     index: 'articles',
     scroll: '30s',
     size: 10000,
-    _source: ['slug','category','published','locale'],
+    _source: ['slug','category','published','language'],
     query: {
       match_all: {}
     }
