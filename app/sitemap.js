@@ -34,14 +34,14 @@ export default async function sitemap(){
 
   while (response.hits.hits.length){
     response.hits.hits.forEach(article=>{
-      article._source.locale !== 'ro' ?
+      article._source.language !== 'ro' ?
           urls.push({
             url: `${process.env.NEXT_PUBLIC_APP_URL}${article._source.locale}/${article._source.category.slug}/${article._source.slug}`,
-            lastModified: article._source.published
+            lastModified: article._source.published_at
           }) :
           urls.push({
             url: `${process.env.NEXT_PUBLIC_APP_URL}${article._source.category.slug}/${article._id}/${article._source.slug}`,
-            lastModified: article._source.published
+            lastModified: article._source.published_at
           })
     })
     response = await client.scroll({
