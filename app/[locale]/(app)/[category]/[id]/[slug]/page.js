@@ -44,7 +44,9 @@ const ArticlePage = async (props)=>{
               </h2>
               <div className="my-5 text-gray-500 text-sm">
                 Author : {
-                article.authors.length > 0 ? article.authors.map(author=>author.full_name).join(', ') : article.authors[0].full_name
+                article.authors.length > 0
+                  ? article.authors.map(author=>author.full_name || '').join(', ')
+                  : "Deschide.md"
               }
               </div>
               <div className="my-5 text-gray-500 text-sm">

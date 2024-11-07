@@ -4,7 +4,6 @@ import i18nConfig from "@/i18nConfig";
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import Script from 'next/script'
 import { Poppins } from 'next/font/google'
-import GoogleAdsense from "@/components/GoogleAdsense";
 
 export const metadata = {
   title: "Arhiva Deschide.MD",
@@ -41,16 +40,15 @@ export default async function RootLayout(props) {
       {children}
       <Script id="clarity-script" strategy="afterInteractive">
         {`
-      (function (c, l, a, r, i, t, y){
-        c[a] = c[a] || function () {
-          (c[a].q = c[a].q || []).push(arguments)
-        };
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "on1o6a29dr");
+        (function (c, l, a, r, i, t, y){
+          c[a] = c[a] || function () {
+            (c[a].q = c[a].q || []).push(arguments)
+          };
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "on1o6a29dr");
       `}
       </Script>
-    <GoogleAdsense />
     </body>
   </html>
 }
