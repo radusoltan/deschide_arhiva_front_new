@@ -1,14 +1,5 @@
+import Categories from "@/components/Admin/Content/Categories";
 
-import axios from "@/lib/axios";
-
-const getCategories = async (locale)=>{
-
-  const response = await axios.get(`/api/categories?locale=${locale}`)
-
-  console.log(response)
-
-  return []
-}
 
 const CategoryPage = async (props)=>{
 
@@ -16,11 +7,9 @@ const CategoryPage = async (props)=>{
 
   const {locale} = params
 
+  console.log(locale)
 
-  const some = await getCategories()
-
-  return <>
-  </>
+  return <Categories/>
 }
 
 export default CategoryPage;
