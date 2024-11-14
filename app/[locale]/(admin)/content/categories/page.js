@@ -7,7 +7,7 @@ const CategoryPage = async (props)=>{
 
   const {locale} = params
 
-  console.log(locale)
+  // console.log(locale)
 
   return <Categories/>
 }
