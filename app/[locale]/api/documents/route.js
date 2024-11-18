@@ -46,7 +46,7 @@ export async function POST(request){
                       style: "Hyperlink",
                     }),
                   ],
-                  link: process.env.NEXT_PUBLIC_APP_URL`/${language}/${doc._source.category.slug}/${doc._id}/${doc._source.slug}`,
+                  link: process.env.NEXT_PUBLIC_APP_URL+`/${language}/${doc.category.slug}/${doc._id}/${doc.slug}`,
                 }),
               ],
             })
