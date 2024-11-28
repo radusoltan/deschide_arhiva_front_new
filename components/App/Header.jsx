@@ -14,7 +14,7 @@ const Header = ()=> {
       <div className="flex items-center md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse">
         <LanguageChanger/>
       </div>
-      <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-language">
+      <div className="items-center justify-between w-full md:flex md:w-auto md:order-1" id="navbar-language">
         <SearchForm/>
       </div>
     </div>
